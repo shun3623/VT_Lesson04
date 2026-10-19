@@ -1,35 +1,42 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GameSceneState : IState
+public class GameSceneState : BaseSceneState
 {
-    // === メンバー変数 === //
-    private SceneManager _sceneManager;
-
+    // === HUD設定 === //
+    public override string HUDAddress { get; protected set; } = "Assets/_VT_2_Lesson04/Prefab/GameHUDCanvas_FullHD.prefab";
     private GameObject _gameCube;
-    public void Enter()
+    public override void Enter()
     {
-        Debug.Log($"{GetType().Name}が始まります");
-
-        // SceneManager を取得
-        _sceneManager = GameObject.FindAnyObjectByType<SceneManager>();
+        base.Enter();
 
         // オブジェクトを生成する
         _gameCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
 
-    public void Execute()
+    public override void Execute()
     {
         if(Mouse.current.leftButton.wasPressedThisFrame)
         {
             // ResultSceneState へ遷移
             _sceneManager.ChangeScene(new ResultSceneState());
+
+            // キャラクターを消す
+            GameObject.Destroy(_gameCube);
         }
+
+        if(Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            // PauseSceneState へ遷移
+            _sceneManager.ChangeScene(new PauseSceneState());
+        }
+
+        base.Execute();
     }
 
-    public void Exit()
+    public  override void Exit()
     {
-        Debug.Log($"{GetType().Name}が終了します");
+        base.Exit();
 
         GameObject.Destroy(_gameCube);
     }
