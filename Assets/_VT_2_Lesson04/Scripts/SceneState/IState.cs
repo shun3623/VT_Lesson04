@@ -21,12 +21,10 @@ public abstract class BaseSceneState : IState
     // === 親クラスのメンバー === //
     protected SceneManager _sceneManager;
 
-    protected GameObject _hudCanvas;
-
     // === Canvas 設定 === //
     // ヘッドアップディスプレイ(UI) のプレハブアドレスを入力
     public abstract string HUDAddress { get; protected set; }
-
+    protected GameObject _hudCanvas;
 
     public virtual void Enter()
     {

@@ -7,13 +7,18 @@ public class TitleSceneState : BaseSceneState
     // === HUD設定 === //
     public override string HUDAddress { get; protected set; } = "Assets/_VT_2_Lesson04/Prefab/TitleHUDCanvas_FullHD.prefab";
 
+    private TitleHUDController _hudController;
+
     public override void Enter()
     {
         base.Enter();
 
-        // === プレハブの読込み === //
-        GameObject hudPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(HUDAddress);
-        GameObject.Instantiate(hudPrefab);
+        // HUDのビューを初期化
+        var hudView = new TitleHUDView();
+        hudView.Initialize(_hudCanvas.GetComponent<Canvas>());
+
+        // HUDのコントローラーを初期化
+        _hudController = new TitleHUDController(hudView, this);
     }
 
     public override void Execute()
@@ -25,5 +30,10 @@ public class TitleSceneState : BaseSceneState
         }
 
         base.Execute();
+    }
+
+    public void AddScore()
+    {
+        //_score++;
     }
 }
