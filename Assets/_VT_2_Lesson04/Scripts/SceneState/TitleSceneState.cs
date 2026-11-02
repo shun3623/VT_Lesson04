@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,8 +5,9 @@ public class TitleSceneState : BaseSceneState
 {
     // === HUDÝ’è === //
     public override string HUDAddress { get; protected set; } = "Assets/_VT_2_Lesson04/Prefab/TitleHUDCanvas_FullHD.prefab";
-
+    public int Score => _score;
     private TitleHUDController _hudController;
+    private int _score = 0;
 
     public override void Enter()
     {
@@ -23,7 +23,7 @@ public class TitleSceneState : BaseSceneState
 
     public override void Execute()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.middleButton.wasPressedThisFrame)
         {
             // GameSceneState ‚Ö‘JˆÚ
             _sceneManager.ChangeScene(new GameSceneState());
@@ -34,6 +34,6 @@ public class TitleSceneState : BaseSceneState
 
     public void AddScore()
     {
-        //_score++;
+        _score++;
     }
 }

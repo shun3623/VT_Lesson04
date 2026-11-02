@@ -1,4 +1,6 @@
 using System;
+using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +14,9 @@ public class TitleHUDView
 
     private Button _clickButton;
 
+    private TextMeshProUGUI _scoreText;
+
+    private Slider _scoreSlider;
     /// <summary>
     /// 初期化メソッド
     /// </summary>
@@ -19,6 +24,18 @@ public class TitleHUDView
     {
         // キャンバス内の要素を取得する
         _clickButton = uiCanvas.GetComponentInChildren<Button>();
+
+        TextMeshProUGUI[] textObjects= uiCanvas.GetComponentsInChildren<TextMeshProUGUI>();
+        foreach (var text in textObjects)
+        {
+            if(text.name == "Value")
+            {
+                _scoreText = text;
+                break;
+            }
+        }
+
+        _scoreSlider = uiCanvas.GetComponentInChildren<Slider>();
 
         // イベントの割り当て
         if (_clickButton != null)
@@ -31,5 +48,21 @@ public class TitleHUDView
 
         // イベントを発行する
         OnClickButtonAction?.Invoke();
+    }
+
+    public void UpdateScore(int score)
+    {
+        if (_scoreText != null)
+        {
+            _scoreText.text = score.ToString();
+        }
+    }
+
+    public void UpdateSlider(int score)
+    {
+        if(_scoreSlider != null)
+        {
+            _scoreSlider.value = (score % 10) * 0.1f;
+        }
     }
 }
